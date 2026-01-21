@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'services/user_service.dart';
 import 'services/mining_service.dart';
 import 'services/task_service.dart';
 import 'services/leaderboard_service.dart';
+import 'services/ad_service.dart';
+import 'services/google_auth_service.dart';
 import 'screens/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Initialize Mobile Ads
+  await MobileAds.instance.initialize();
+  
   runApp(const VoidiumMinerApp());
 }
 
@@ -19,6 +26,8 @@ class VoidiumMinerApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserService()),
+        ChangeNotifierProvider(create: (_) => AdService()),
+        ChangeNotifierProvider(create: (_) => GoogleAuthService()),
         ChangeNotifierProxyProvider<UserService, MiningService>(
           create: (context) => MiningService(context.read<UserService>()),
           update: (context, userService, previous) =>

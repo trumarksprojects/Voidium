@@ -4,6 +4,8 @@ import '../services/user_service.dart';
 import '../services/mining_service.dart';
 import '../services/task_service.dart';
 import '../services/leaderboard_service.dart';
+import '../services/ad_service.dart';
+import '../services/google_auth_service.dart';
 import 'auth/login_screen.dart';
 import 'home/home_screen.dart';
 
@@ -46,15 +48,22 @@ class _SplashScreenState extends State<SplashScreen>
     final miningService = context.read<MiningService>();
     final taskService = context.read<TaskService>();
     final leaderboardService = context.read<LeaderboardService>();
+    final adService = context.read<AdService>();
+    final googleAuthService = context.read<GoogleAuthService>();
 
     // Initialize services
     await userService.init();
     await miningService.init();
     await taskService.init();
     await leaderboardService.init();
+    await adService.initialize();
+    await googleAuthService.initialize();
 
     // Wait for animation
     await Future.delayed(const Duration(seconds: 3));
+    
+    // Show interstitial ad on app launch
+    await adService.showInterstitialAd();
 
     if (!mounted) return;
 

@@ -77,6 +77,26 @@ class TaskService extends ChangeNotifier {
           maxCompletions: 10,
         ),
         
+        // Rewarded Ad Tasks (with 1-hour cooldown)
+        TaskModel(
+          id: 'rewarded_ad_1',
+          title: '⭐ Watch Rewarded Ad',
+          description: 'Watch an ad and earn 100 VOID (Available every hour)',
+          category: TaskCategory.daily,
+          type: TaskType.watchAd,
+          rewardAmount: 100.0,
+          maxCompletions: 999, // Can be repeated
+        ),
+        TaskModel(
+          id: 'rewarded_ad_2',
+          title: '💎 Watch Premium Ad',
+          description: 'Watch a premium ad and earn 150 VOID (Available every hour)',
+          category: TaskCategory.daily,
+          type: TaskType.watchAd,
+          rewardAmount: 150.0,
+          maxCompletions: 999, // Can be repeated
+        ),
+        
         // Special Tasks
         TaskModel(
           id: 'special_reach_1000',

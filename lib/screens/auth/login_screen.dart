@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/user_service.dart';
+import '../../services/google_auth_service.dart';
+import '../../services/mining_service.dart';
 import '../home/home_screen.dart';
 import 'register_screen.dart';
 
@@ -45,6 +47,35 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Invalid credentials. Please register first.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    setState(() => _isLoading = true);
+
+    final googleAuthService = context.read<GoogleAuthService>();
+    final userService = context.read<UserService>();
+    final miningService = context.read<MiningService>();
+    
+    final account = await googleAuthService.signInWithGoogle(userService);
+
+    if (!mounted) return;
+
+    if (account != null) {
+      // Initialize mining after successful sign-in
+      miningService.startMining();
+      
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => const HomeScreen()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Google Sign-In failed. Please try again.'),
           backgroundColor: Colors.red,
         ),
       );
@@ -183,6 +214,53 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 24),
+                
+                // Divider with OR
+                Row(
+                  children: [
+                    Expanded(child: Divider(color: Colors.white.withValues(alpha: 0.3))),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'OR',
+                        style: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+                      ),
+                    ),
+                    Expanded(child: Divider(color: Colors.white.withValues(alpha: 0.3))),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                
+                // Google Sign-In button
+                SizedBox(
+                  height: 56,
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _isLoading ? null : _handleGoogleSignIn,
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.white24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: Image.asset(
+                      'assets/icon/google_logo.png',
+                      height: 24,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.login, color: Colors.white);
+                      },
+                    ),
+                    label: const Text(
+                      'Continue with Google',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import '../../services/ad_service.dart';
 import 'mining_tab.dart';
 import '../tasks/tasks_screen.dart';
+import '../games/mini_games_screen.dart';
 import '../team/team_screen.dart';
 import '../leaderboard/leaderboard_screen.dart';
 import '../profile/profile_screen.dart';
@@ -18,19 +22,33 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     const MiningTab(),
     const TasksScreen(),
-    const TeamScreen(),
+    const MiniGamesScreen(),
     const LeaderboardScreen(),
     const ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final adService = context.watch<AdService>();
+    
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Banner Ad
+          if (adService.isBannerAdLoaded && adService.bannerAd != null)
+            Container(
+              height: 50,
+              color: const Color(0xFF0A0E27),
+              child: AdWidget(ad: adService.bannerAd!),
+            ),
+          
+          // Navigation Bar
+          Container(
         decoration: BoxDecoration(
           color: const Color(0xFF1A1F3A).withValues(alpha: 0.95),
           border: Border(
@@ -48,13 +66,15 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 _buildNavItem(0, Icons.hub_rounded, 'Mine'),
                 _buildNavItem(1, Icons.task_alt, 'Tasks'),
-                _buildNavItem(2, Icons.groups, 'Team'),
+                _buildNavItem(2, Icons.sports_esports, 'Games'),
                 _buildNavItem(3, Icons.leaderboard, 'Ranks'),
                 _buildNavItem(4, Icons.person, 'Profile'),
               ],
             ),
           ),
         ),
+      ),
+        ],
       ),
     );
   }
