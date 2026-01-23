@@ -11,6 +11,11 @@ class UserModel {
   final String? teamId;
   final DateTime joinedDate;
   final bool isAdmin;
+  final int dailyStreak;
+  final DateTime? lastCheckIn;
+  final bool kycEligible;
+  final bool kycSubmitted;
+  final bool kycApproved;
 
   UserModel({
     required this.id,
@@ -25,6 +30,11 @@ class UserModel {
     this.teamId,
     required this.joinedDate,
     this.isAdmin = false,
+    this.dailyStreak = 0,
+    this.lastCheckIn,
+    this.kycEligible = false,
+    this.kycSubmitted = false,
+    this.kycApproved = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -41,6 +51,11 @@ class UserModel {
       'teamId': teamId,
       'joinedDate': joinedDate.toIso8601String(),
       'isAdmin': isAdmin,
+      'dailyStreak': dailyStreak,
+      'lastCheckIn': lastCheckIn?.toIso8601String(),
+      'kycEligible': kycEligible,
+      'kycSubmitted': kycSubmitted,
+      'kycApproved': kycApproved,
     };
   }
 
@@ -58,6 +73,12 @@ class UserModel {
       teamId: map['teamId'],
       joinedDate: DateTime.parse(map['joinedDate']),
       isAdmin: map['isAdmin'] ?? false,
+      dailyStreak: map['dailyStreak'] ?? 0,
+      lastCheckIn:
+          map['lastCheckIn'] != null ? DateTime.parse(map['lastCheckIn']) : null,
+      kycEligible: map['kycEligible'] ?? false,
+      kycSubmitted: map['kycSubmitted'] ?? false,
+      kycApproved: map['kycApproved'] ?? false,
     );
   }
 
@@ -74,6 +95,11 @@ class UserModel {
     String? teamId,
     DateTime? joinedDate,
     bool? isAdmin,
+    int? dailyStreak,
+    DateTime? lastCheckIn,
+    bool? kycEligible,
+    bool? kycSubmitted,
+    bool? kycApproved,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -88,6 +114,11 @@ class UserModel {
       teamId: teamId ?? this.teamId,
       joinedDate: joinedDate ?? this.joinedDate,
       isAdmin: isAdmin ?? this.isAdmin,
+      dailyStreak: dailyStreak ?? this.dailyStreak,
+      lastCheckIn: lastCheckIn ?? this.lastCheckIn,
+      kycEligible: kycEligible ?? this.kycEligible,
+      kycSubmitted: kycSubmitted ?? this.kycSubmitted,
+      kycApproved: kycApproved ?? this.kycApproved,
     );
   }
 }

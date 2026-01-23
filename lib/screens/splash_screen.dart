@@ -6,6 +6,7 @@ import '../services/task_service.dart';
 import '../services/leaderboard_service.dart';
 import '../services/ad_service.dart';
 import '../services/google_auth_service.dart';
+import '../services/gamification_service.dart';
 import 'auth/login_screen.dart';
 import 'home/home_screen.dart';
 
@@ -50,6 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
     final leaderboardService = context.read<LeaderboardService>();
     final adService = context.read<AdService>();
     final googleAuthService = context.read<GoogleAuthService>();
+    final gamificationService = context.read<GamificationService>();
 
     // Initialize services
     await userService.init();
@@ -58,6 +60,10 @@ class _SplashScreenState extends State<SplashScreen>
     await leaderboardService.init();
     await adService.initialize();
     await googleAuthService.initialize();
+    await gamificationService.init();
+
+    // Check daily streak
+    await gamificationService.checkDailyStreak();
 
     // Wait for animation
     await Future.delayed(const Duration(seconds: 3));

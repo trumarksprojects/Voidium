@@ -7,7 +7,7 @@ import '../tasks/tasks_screen.dart';
 import '../games/mini_games_screen.dart';
 import '../team/team_screen.dart';
 import '../leaderboard/leaderboard_screen.dart';
-import '../profile/profile_screen.dart';
+import '../profile/enhanced_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const TasksScreen(),
     const MiniGamesScreen(),
     const LeaderboardScreen(),
-    const ProfileScreen(),
+    const EnhancedProfileScreen(),
   ];
 
   @override

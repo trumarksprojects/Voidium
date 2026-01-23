@@ -1,5 +1,6 @@
-package com.voidiumminer.voidium_miner
+package com.voidiumminer.miner
 
 import io.flutter.embedding.android.FlutterActivity
 
 class MainActivity : FlutterActivity()
+

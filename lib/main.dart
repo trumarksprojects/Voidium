@@ -7,6 +7,7 @@ import 'services/task_service.dart';
 import 'services/leaderboard_service.dart';
 import 'services/ad_service.dart';
 import 'services/google_auth_service.dart';
+import 'services/gamification_service.dart';
 import 'screens/splash_screen.dart';
 
 void main() async {
@@ -42,6 +43,11 @@ class VoidiumMinerApp extends StatelessWidget {
           create: (context) => LeaderboardService(context.read<UserService>()),
           update: (context, userService, previous) =>
               previous ?? LeaderboardService(userService),
+        ),
+        ChangeNotifierProxyProvider<UserService, GamificationService>(
+          create: (context) => GamificationService(context.read<UserService>()),
+          update: (context, userService, previous) =>
+              previous ?? GamificationService(userService),
         ),
       ],
       child: MaterialApp(
