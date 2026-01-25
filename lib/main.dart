@@ -8,6 +8,7 @@ import 'services/leaderboard_service.dart';
 import 'services/ad_service.dart';
 import 'services/google_auth_service.dart';
 import 'services/gamification_service.dart';
+import 'services/simple_advanced_features_service.dart';
 import 'screens/splash_screen.dart';
 
 void main() async {
@@ -48,6 +49,11 @@ class VoidiumMinerApp extends StatelessWidget {
           create: (context) => GamificationService(context.read<UserService>()),
           update: (context, userService, previous) =>
               previous ?? GamificationService(userService),
+        ),
+        ChangeNotifierProxyProvider<UserService, AdvancedFeaturesService>(
+          create: (context) => AdvancedFeaturesService(context.read<UserService>()),
+          update: (context, userService, previous) =>
+              previous ?? AdvancedFeaturesService(userService),
         ),
       ],
       child: MaterialApp(
