@@ -120,6 +120,12 @@ class _SplashScreenState extends State<SplashScreen>
                       height: 150,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFF8B5CF6),
+                            Color(0xFF06B6D4),
+                          ],
+                        ),
                         boxShadow: [
                           BoxShadow(
                             color: const Color(0xFF8B5CF6)
@@ -136,9 +142,17 @@ class _SplashScreenState extends State<SplashScreen>
                         ],
                       ),
                       child: ClipOval(
-                        child: Image.asset(
-                          'assets/icon/app_icon.png',
-                          fit: BoxFit.cover,
+                        child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            Colors.white.withValues(alpha: 0),
+                            BlendMode.dstOut,
+                          ),
+                          child: Image.asset(
+                            'assets/icon/app_icon.png',
+                            fit: BoxFit.contain,
+                            color: Colors.transparent,
+                            colorBlendMode: BlendMode.lighten,
+                          ),
                         ),
                       ),
                     ),

@@ -102,6 +102,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 120,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFF8B5CF6),
+                        Color(0xFF06B6D4),
+                      ],
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF8B5CF6).withValues(alpha: 0.5),
@@ -111,9 +117,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   child: ClipOval(
-                    child: Image.asset(
-                      'assets/icon/app_icon.png',
-                      fit: BoxFit.cover,
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                        Colors.white.withValues(alpha: 0),
+                        BlendMode.dstOut,
+                      ),
+                      child: Image.asset(
+                        'assets/icon/app_icon.png',
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
